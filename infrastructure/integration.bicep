@@ -15,6 +15,14 @@ param redisCacheSku object
 var defaultResourceName = toLower('${systemName}-${environmentName}-${locationAbbreviation}')
 var webPubSubHubname = 'pollstar'
 
+var networkingResourceGroup = 'blckjck-net-prod-neu'
+var virtualNetworkResourceName = '${networkingResourceGroup}-vnet'
+
+resource vnet 'Microsoft.Network/virtualNetworks@2022-05-01' existing = {
+  name: virtualNetworkResourceName
+  scope: resourceGroup(networkingResourceGroup)
+}
+
 resource configurationDataReaderRole 'Microsoft.Authorization/roleDefinitions@2018-01-01-preview' existing = {
   scope: resourceGroup()
   name: '516239f1-63e1-4d78-a4de-a74fb236a071'
@@ -119,6 +127,11 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2022-03-01'
       }
     }
     zoneRedundant: false
+    vnetConfiguration: {
+      infrastructureSubnetId: '${vnet.id}/subnets/containerapps'
+      runtimeSubnetId: '${vnet.id}/subnets/containerappsruntime'
+      internal: true
+    }
   }
 }
 
