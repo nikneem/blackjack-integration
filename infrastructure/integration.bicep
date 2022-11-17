@@ -36,7 +36,7 @@ resource appConfig 'Microsoft.AppConfiguration/configurationStores@2022-05-01' =
 }
 
 resource allowContributorForDevelopmentTeam 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('${developersGroup}-${configurationDataReaderRole.name}')
+  name: guid('${systemName}-${developersGroup}-${configurationDataReaderRole.name}')
   properties: {
     principalId: developersGroup
     principalType: 'Group'
@@ -44,7 +44,7 @@ resource allowContributorForDevelopmentTeam 'Microsoft.Authorization/roleAssignm
   }
 }
 resource allowSecretsForDevelopmentTeam 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  name: guid('${developersGroup}-${accessSecretsRole.name}')
+  name: guid('${systemName}-${developersGroup}-${accessSecretsRole.name}')
   properties: {
     principalId: developersGroup
     principalType: 'Group'
