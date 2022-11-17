@@ -1,0 +1,42 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  publish-bicep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build & Push
+        working-directory: infrastructure
+        run: |
+          az bicep build --file main.bicep
+          az bicep build --file integration.bicep
+      - name: Publish Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bicep-templates
+          path: infrastructure/*.json
+
+  infrastructure-incremental-prod:
+    needs: [publish-bicep]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: bicep-templates
+          path: ./infrastructure
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_PROD }}
+
+      - name: Deploy Infrastructure
+        id: arm
+        uses: Azure/cli@v1
+        with:
+          inlineScript: az deployment sub create --name pollstar-integration  --location northeurope --template-file ./infrastructure/main.json --parameters ./infrastructure/params.prod.json

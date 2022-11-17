@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "systemName": {
+      "value": "blackjack-int"
+    },
+    "environmentName": {
+      "value": "prod"
+    },
+    "locationAbbreviation": {
+      "value": "neu"
+    },
+    "webPubSubSku": {
+      "value": {
+        "capacity": 1,
+        "tier": "Free",
+        "name": "Free_F1"
+      }
+    },
+    "redisCacheSku": {
+      "value": {
+        "capacity": 1,
+        "family": "C",
+        "name": "Standard"
+      }
+    },
+    "developersGroup": {
+      "value": "84827723-cffa-465d-813f-9e24c60e4187"
+    }
+  }
+}
