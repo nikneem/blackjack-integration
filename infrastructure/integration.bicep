@@ -127,11 +127,6 @@ resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2022-03-01'
       }
     }
     zoneRedundant: false
-    vnetConfiguration: {
-      infrastructureSubnetId: '${vnet.id}/subnets/containerapps'
-      runtimeSubnetId: '${vnet.id}/subnets/containerappsruntime'
-      internal: true
-    }
   }
 }
 
