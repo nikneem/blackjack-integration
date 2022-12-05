@@ -114,6 +114,18 @@ resource applicationInsightsConfigurationValue 'Microsoft.AppConfiguration/confi
   }
 }
 
+resource eventGrid 'Microsoft.EventGrid/topics@2022-06-15' = {
+  name: '${defaultResourceName}-evgrd'
+  location: location
+  properties: {
+    dataResidencyBoundary: 'WithinGeopair'
+    disableLocalAuth: false
+    inboundIpRules: []
+    inputSchema: 'EventGridSchema'
+    publicNetworkAccess: 'Enabled'
+  }
+}
+
 resource containerAppEnvironments 'Microsoft.App/managedEnvironments@2022-03-01' = {
   name: '${defaultResourceName}-env'
   location: location
@@ -167,6 +179,14 @@ resource webPubSubHubNameConfigurationValue 'Microsoft.AppConfiguration/configur
   properties: {
     contentType: 'text/plain'
     value: webPubSubHubname
+  }
+}
+resource eventGridEndpointConfigurationValue 'Microsoft.AppConfiguration/configurationStores/keyValues@2022-05-01' = {
+  name: 'Azure:EventGridTopicEndpoint'
+  parent: appConfig
+  properties: {
+    contentType: 'text/plain'
+    value: eventGrid.properties.endpoint
   }
 }
 
