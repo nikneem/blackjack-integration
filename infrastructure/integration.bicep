@@ -121,7 +121,7 @@ resource eventGrid 'Microsoft.EventGrid/topics@2022-06-15' = {
     dataResidencyBoundary: 'WithinGeopair'
     disableLocalAuth: false
     inboundIpRules: []
-    inputSchema: 'EventGridSchema'
+    inputSchema: 'CloudEventSchemaV1_0'
     publicNetworkAccess: 'Enabled'
   }
 }
